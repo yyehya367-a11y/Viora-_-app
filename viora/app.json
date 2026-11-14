@@ -1,33 +1,5 @@
 {
-  "expo": {
-    "name": "Viora",
-    "slug": "viora",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#FAD0C4"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FAD0C4"
-      },
-      "package": "com.viora.app"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "3633035d-25b5-41cf-b025-eb68c173ba06"
-      }
-    }
+  "android": {
+    "package": "com.anonymous.viora"
   }
 }
