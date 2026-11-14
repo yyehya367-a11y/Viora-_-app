@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { supabase } from '../supabase'; // ربط السيرفر
+import { supabase } from '../supabase';
 
 export default function LoginScreen({ onLogin }) {
   const [email, setEmail] = useState('');
@@ -21,7 +21,25 @@ export default function LoginScreen({ onLogin }) {
       setLoading(false);
     } else {
       setLoading(false);
-      onLogin(); // يدخل للتطبيق
+      onLogin();
+    }
+  };
+
+  const handleSignUp = async () => {
+    if (!email || !password) {
+      Alert.alert('تنبيه', 'لازم تكتب الإيميل والباسورد باش تنشئ حساب');
+      return;
+    }
+    setLoading(true);
+    const { error } = await supabase.auth.signUp({ email, password });
+    
+    if (error) {
+      Alert.alert('خطأ', error.message);
+      setLoading(false);
+    } else {
+      Alert.alert('نجاح', 'تم إنشاء الحساب! راك رايح تدخل دكا.');
+      setLoading(false);
+      onLogin();
     }
   };
 
@@ -61,7 +79,7 @@ export default function LoginScreen({ onLogin }) {
           <Text style={styles.loginText}>{loading ? 'راهو يدخل...' : 'دخول'}</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.signupBtn}>
+        <TouchableOpacity style={styles.signupBtn} onPress={handleSignUp} disabled={loading}>
           <Text style={styles.signupText}>إنشاء حساب جديد</Text>
         </TouchableOpacity>
       </View>
