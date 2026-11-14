@@ -1,12 +1,27 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, SafeAreaView, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { supabase } from '../supabase';
 
 export default function ProfileScreen() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+    getUser();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    Alert.alert('تسجيل الخروج', 'راك رايح تخرج من الحساب');
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        {/* Header Cover */}
         <View style={styles.coverPhoto}>
           <Image source={{ uri: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800' }} style={styles.coverImage} />
         </View>
@@ -20,10 +35,9 @@ export default function ProfileScreen() {
             <Ionicons name="checkmark-circle" size={20} color="#FFD700" />
             <Text style={styles.founderTag}>المؤسس</Text>
           </View>
-          <Text style={styles.username}>@Benmouusling</Text>
+          <Text style={styles.username}>@{user ? user.email.split('@')[0] : 'Benmouusling'}</Text>
           <Text style={styles.bio}>مؤسس Viora 🇩🇿 | من ميلة | نحو العالمية 🚀</Text>
 
-          {/* Stats */}
           <View style={styles.statsContainer}>
             <View style={styles.statBox}>
               <Text style={styles.statNumber}>12</Text>
@@ -39,13 +53,12 @@ export default function ProfileScreen() {
             </View>
           </View>
 
-          {/* Buttons */}
           <View style={styles.actionButtons}>
             <TouchableOpacity style={styles.editBtn}>
               <Text style={styles.editBtnText}>تعديل الملف</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.shareBtn}>
-              <Ionicons name="settings-outline" size={20} color="#333" />
+            <TouchableOpacity style={styles.shareBtn} onPress={handleLogout}>
+              <Ionicons name="log-out-outline" size={20} color="#333" />
             </TouchableOpacity>
           </View>
         </View>
