@@ -4,7 +4,7 @@
     "slug": "viora",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "https://i.ibb.co/6PZ8Z5B/v-logo.png",
+    "icon":"./assets/icon.png",",
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true
