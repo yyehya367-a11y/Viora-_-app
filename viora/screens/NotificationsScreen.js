@@ -6,6 +6,7 @@ const NOTIFS = [
   { id: '1', text: 'Nova: كيفاش نقدر نعاونك اليوم؟', icon: 'sparkles', color: '#9C27B0' },
   { id: '2', text: 'مرافق جديد: @lena._ رافقك', icon: 'person-add', color: '#4CAF50' },
   { id: '3', text: 'إعجاب: 12 شخص عجبهم لحظتك', icon: 'heart', color: '#FF5252' },
+  { id: '4', text: 'رسالة جديدة من kai.photo', icon: 'chatbubble', color: '#2196F3' },
 ];
 
 export default function NotificationsScreen() {

@@ -1,31 +1,85 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, Image, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.header}><Text style={styles.headerTitle}>V I O R A</Text></View>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+        
+        {/* Mila Trending Bar */}
         <View style={styles.trendingBar}>
-          <Ionicons name="location" size={24} color="#4CAF50" />
-          <Text style={styles.trendingTitle}>Mila trending now</Text>
-        </View>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.stories}>
-          {['Your Story', 'lena._', 'kai.photo', 'mira.day'].map((name, i) => (
-            <View key={i} style={styles.storyItem}>
-              <Image source={{ uri: 'https://i.pravatar.cc/100?img=' + (i+1) }} style={styles.storyImage} />
-              <Text style={styles.storyName}>{name}</Text>
-            </View>
-          ))}
-        </ScrollView>
-        <View style={styles.postCard}>
-          <View style={styles.postHeader}>
-            <Image source={{ uri: 'https://i.pravatar.cc/100?img=5' }} style={styles.avatar} />
-            <Text style={styles.username}>lena._</Text>
+          <View style={styles.mapIconContainer}>
+             <Ionicons name="location" size={24} color="#4CAF50" />
           </View>
-          <Image source={{ uri: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085' }} style={styles.postImage} />
-          <Text style={styles.postCaption}>Cozy mornings ☕</Text>
+          <View>
+            <Text style={styles.trendingTitle}>Mila trending now</Text>
+            <Text style={styles.trendingSub}>🟢 4,856 Mila users now</Text>
+          </View>
+        </View>
+
+        {/* Trend Reels */}
+        <View style={styles.reelsSection}>
+          <Text style={styles.sectionTitle}>Trend Reels</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.reelsScroll}>
+            {['Reels · Mila Cafés', 'Reels · Night Market', 'Reels · Mountains', 'Reels · Crafts'].map((item, index) => (
+              <View key={index} style={styles.reelItem}>
+                <View style={styles.reelImagePlaceholder}>
+                  <Ionicons name="play" size={20} color="#FFF" />
+                </View>
+                <Text style={styles.reelText}>{item}</Text>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+
+        {/* Main Feed */}
+        <View style={styles.mainContent}>
+          
+          {/* Posts (Left) */}
+          <View style={styles.postsColumn}>
+            <View style={styles.postCard}>
+              <View style={styles.postHeader}>
+                <Image source={{ uri: 'https://i.pravatar.cc/100?img=5' }} style={styles.avatar} />
+                <Text style={styles.username}>lena._</Text>
+                <Ionicons name="checkmark-circle" size={16} color="#9C27B0" />
+              </View>
+              <Image source={{ uri: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085' }} style={styles.postImage} />
+              <View style={styles.postActions}>
+                <Text style={styles.actionText}>💬 324 comments</Text>
+                <Text style={styles.actionText}>✨ 12.4k sparkle</Text>
+              </View>
+              <Text style={styles.postCaption}>Cozy mornings</Text>
+            </View>
+
+            <View style={styles.postCard}>
+              <View style={styles.postHeader}>
+                <Image source={{ uri: 'https://i.pravatar.cc/100?img=8' }} style={styles.avatar} />
+                <Text style={styles.username}>kai.photo</Text>
+                <Ionicons name="checkmark-circle" size={16} color="#9C27B0" />
+              </View>
+              <Image source={{ uri: 'https://images.unsplash.com/photo-1514565131-fce0801e5785' }} style={styles.postImage} />
+              <Text style={styles.postCaption}>New York vibes</Text>
+            </View>
+          </View>
+
+          {/* Stories (Right) */}
+          <View style={styles.storiesColumn}>
+            <View style={styles.storyItem}>
+              <View style={styles.storyCircleAdd}>
+                <Ionicons name="add" size={24} color="#FFF" />
+              </View>
+              <Text style={styles.storyName}>Your Story</Text>
+            </View>
+            {['lena._', 'kai.photo', 'mira.day', 'zara.art'].map((name, i) => (
+              <View key={i} style={styles.storyItem}>
+                <View style={styles.storyCircle}>
+                  <Image source={{ uri: 'https://i.pravatar.cc/100?img=' + (i+10) }} style={styles.storyImage} />
+                </View>
+                <Text style={styles.storyName}>{name}</Text>
+              </View>
+            ))}
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -35,18 +89,30 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F7E8E4' },
   scrollContent: { paddingBottom: 100 },
-  header: { padding: 20, alignItems: 'center' },
-  headerTitle: { fontSize: 24, fontWeight: 'bold', letterSpacing: 4 },
   trendingBar: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFF', margin: 15, padding: 15, borderRadius: 20 },
-  trendingTitle: { fontSize: 16, fontWeight: 'bold', marginLeft: 10 },
-  stories: { paddingLeft: 15, marginBottom: 15 },
-  storyItem: { alignItems: 'center', marginRight: 15 },
-  storyImage: { width: 60, height: 60, borderRadius: 30, borderWidth: 2, borderColor: '#9C27B0' },
-  storyName: { fontSize: 12, marginTop: 5 },
-  postCard: { backgroundColor: '#FFF', marginHorizontal: 15, borderRadius: 20, padding: 15, marginBottom: 15 },
+  mapIconContainer: { backgroundColor: '#E8F5E9', padding: 10, borderRadius: 15, marginRight: 15 },
+  trendingTitle: { fontSize: 16, fontWeight: 'bold', color: '#000' },
+  trendingSub: { fontSize: 12, color: '#666', marginTop: 3 },
+  reelsSection: { backgroundColor: '#FFF', marginHorizontal: 15, padding: 15, borderRadius: 20 },
+  sectionTitle: { fontSize: 16, fontWeight: 'bold', marginBottom: 10 },
+  reelsScroll: { marginTop: 10 },
+  reelItem: { marginRight: 15, alignItems: 'center', width: 70 },
+  reelImagePlaceholder: { width: 70, height: 70, borderRadius: 15, backgroundColor: '#333', justifyContent: 'center', alignItems: 'center', marginBottom: 5 },
+  reelText: { fontSize: 10, textAlign: 'center', color: '#333' },
+  mainContent: { flexDirection: 'row', paddingHorizontal: 15, marginTop: 15 },
+  postsColumn: { flex: 1, marginRight: 10 },
+  postCard: { backgroundColor: '#FFF', borderRadius: 20, padding: 15, marginBottom: 15 },
   postHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
-  avatar: { width: 30, height: 30, borderRadius: 15, marginRight: 10 },
-  username: { fontWeight: 'bold' },
-  postImage: { width: '100%', height: 250, borderRadius: 15, marginBottom: 10 },
-  postCaption: { fontSize: 14 },
+  avatar: { width: 30, height: 30, borderRadius: 15, marginRight: 8 },
+  username: { fontWeight: 'bold', fontSize: 14, marginRight: 5 },
+  postImage: { width: '100%', height: 200, borderRadius: 15, marginBottom: 10 },
+  postActions: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 },
+  actionText: { fontSize: 12, color: '#555' },
+  postCaption: { fontSize: 14, fontWeight: '500' },
+  storiesColumn: { width: 100 },
+  storyItem: { alignItems: 'center', marginBottom: 15, backgroundColor: '#FFF', padding: 10, borderRadius: 20 },
+  storyCircleAdd: { width: 50, height: 50, borderRadius: 25, backgroundColor: '#D1C4E9', justifyContent: 'center', alignItems: 'center', marginBottom: 5 },
+  storyCircle: { width: 50, height: 50, borderRadius: 25, borderWidth: 2, borderColor: '#FFB6C1', padding: 2, marginBottom: 5 },
+  storyImage: { width: '100%', height: '100%', borderRadius: 25 },
+  storyName: { fontSize: 11, textAlign: 'center' },
 });

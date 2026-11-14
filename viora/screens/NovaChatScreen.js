@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+kimport React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, ScrollView, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function NovaChatScreen() {
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState([
-    { role: 'ai', text: 'مرحبا! أنا Nova، المساعد الذكي لتطبيق Viora. كيفاش نقدر نعاونك اليوم؟ 🎀' }
+    { role: 'ai', text: 'مرحبا! أنا Nova، المساعد الذكي لتطبيق Viora. كيفاش نقدر نعاونك اليوم؟ 🌷' }
   ]);
   const [loading, setLoading] = useState(false);
-  
-  // المفتاح تاعك (عطيني وقت باش نحطوه من بعد)
-  const API_KEY = "حط_المفتاح_تاعك_هنا"; 
+
+  // 🔑 المفتاح راهو مخبي في EAS، ما نحتاجوهش هنا
+  const API_KEY = process.env.EXPO_PUBLIC_GEMINI_API_KEY;
 
   const sendMessage = async () => {
     if (!message.trim()) return;
@@ -18,11 +18,30 @@ export default function NovaChatScreen() {
     setChat(prev => [...prev, userMsg]);
     setMessage('');
     setLoading(true);
-    // هنا رايحين نضيفو الربط مع Gemini من بعد
-    setTimeout(() => {
-        setChat(prev => [...prev, { role: 'ai', text: 'أنا Nova، وكي نكملو الربط، رايح نجاوبك على كلش! 🌷' }]);
-        setLoading(false);
-    }, 1000);
+
+    try {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: `أنت Nova، المساعد الذكي الرسمي لتطبيق Viora. مطور التطبيق هو Adem Benzahra (Benmouusling) من ميلة، الجزائر. المستخدم يسقسيك: ${message}`
+            }]
+          }]
+        })
+      });
+      const data = await response.json();
+      if (data.candidates && data.candidates[0].content) {
+        setChat(prev => [...prev, { role: 'ai', text: data.candidates[0].content.parts[0].text }]);
+      } else {
+        setChat(prev => [...prev, { role: 'ai', text: "سمحلي، كاين مشكل في الاتصال. عاود جرب!" }]);
+      }
+    } catch (error) {
+      setChat(prev => [...prev, { role: 'ai', text: 'سمحلي، صرالنا مشكل تقني.' }]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -31,7 +50,10 @@ export default function NovaChatScreen() {
         <View style={styles.avatar}><Text style={{ fontSize: 24 }}>🤖</Text></View>
         <View>
           <Text style={styles.headerTitle}>Nova Mind IA</Text>
-          <Text style={styles.headerSub}>نشط الآن 🟢</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+             <View style={styles.dot} />
+             <Text style={styles.headerSub}>نشط الآن</Text>
+          </View>
         </View>
       </View>
       <ScrollView contentContainerStyle={styles.chatArea}>
@@ -57,6 +79,7 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', padding: 20, backgroundColor: '#FFF', borderBottomWidth: 1, borderColor: '#EEE', paddingTop: 50 },
   avatar: { width: 45, height: 45, borderRadius: 22, backgroundColor: '#E8D5FF', justifyContent: 'center', alignItems: 'center', marginRight: 10 },
   headerTitle: { fontSize: 16, fontWeight: 'bold', color: '#1A1A1A' },
+  dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: '#4CAF50', marginRight: 5 },
   headerSub: { fontSize: 12, color: '#4CAF50', fontWeight: 'bold' },
   chatArea: { padding: 15, paddingBottom: 100 },
   bubble: { padding: 12, borderRadius: 20, marginBottom: 10, maxWidth: '80%' },
