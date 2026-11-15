@@ -1,10 +1,23 @@
 {
-  "android": {
-    "package": "com.anonymous.viora"
-  },
-  "extra": {
-    "eas": {
-      "projectId": "3633035d-25b5-41cf-b025-eb68c173ba06"
+  "expo": {
+    "name": "Viora",
+    "slug": "viora",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "android": {
+      "package": "com.viora.app"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3633035d-25b5-41cf-b025-eb68c173ba06"
+      }
     }
   }
 }
