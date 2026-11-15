@@ -4,7 +4,6 @@ ScrollView, SafeAreaView, Dimensions, Alert } from
 'react-native'; import { Ionicons } from 
 '@expo/vector-icons'; import { supabase } from 
 '../supabase';
-nano screens/ProfileScreen.js
 
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, SafeAreaView, Dimensions, Alert } from 'react-native';
