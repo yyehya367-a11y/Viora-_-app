@@ -9,6 +9,7 @@ const CHATS = [
   { id: '4', name: 'Mila Group', msg: 'مرحبا بيكم في القروب', time: 'أمس', isNova: false, online: false },
 ];
 
+// 💚 الدايرة اللي تنبض
 const PulseDot = ({ online }) => {
   const scale = useRef(new Animated.Value(1)).current;
   useEffect(() => {
@@ -25,6 +26,7 @@ const PulseDot = ({ online }) => {
   return <Animated.View style={[styles.pulseDot, { transform: [{ scale }] }]} />;
 };
 
+// 🌟 زر Nova العائم
 const NovaFloatingButton = ({ onPress }) => {
   const scale = useRef(new Animated.Value(1)).current;
   useEffect(() => {
@@ -53,13 +55,21 @@ export default function ChatsListScreen({ navigation }) {
           <Ionicons name="create-outline" size={24} color="#9C27B0" />
         </TouchableOpacity>
       </View>
+
       <FlatList
         data={CHATS}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.chatItem} onPress={() => item.isNova ? navigation.navigate('NovaChat') : null}>
+          <TouchableOpacity 
+            style={styles.chatItem} 
+            onPress={() => item.isNova ? navigation.navigate('NovaChat') : navigation.navigate('ChatScreen', { name: item.name })}
+          >
             <View style={[styles.avatarContainer, item.isNova && { backgroundColor: '#E8D5FF' }]}>
-              {item.isNova ? <Text style={{ fontSize: 24 }}>🤖</Text> : <Image source={{ uri: 'https://i.pravatar.cc/100?img=' + item.id }} style={styles.avatar} />}
+              {item.isNova ? (
+                <Text style={{ fontSize: 24 }}>🤖</Text>
+              ) : (
+                <Image source={{ uri: 'https://i.pravatar.cc/100?img=' + item.id }} style={styles.avatar} />
+              )}
               <PulseDot online={item.online} />
             </View>
             <View style={styles.chatInfo}>
@@ -72,6 +82,7 @@ export default function ChatsListScreen({ navigation }) {
           </TouchableOpacity>
         )}
       />
+
       <NovaFloatingButton onPress={() => navigation.navigate('NovaChat')} />
     </SafeAreaView>
   );

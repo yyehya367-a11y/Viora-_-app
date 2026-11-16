@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, ScrollView, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, ScrollView, StyleSheet, KeyboardAvoidingView, Platform, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function NovaChatScreen() {
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState([
-    { role: 'ai', text: 'مرحبا! أنا Nova، المساعد الذكي لتطبيق Viora. كيفاش نقدر نعاونك اليوم؟ 🌷' }
+    { role: 'ai', text: 'مرحبا! أنا Nova، المساعد الذكي لتطبيق Viora. كيفاش نقدر نعاونك اليوم؟ 🎀' }
   ]);
   const [loading, setLoading] = useState(false);
-
-  // 🔑 المفتاح راهو مخبي في EAS، ما نحتاجوهش هنا
-  const API_KEY = process.env.EXPO_PUBLIC_GEMINI_API_KEY;
 
   const sendMessage = async () => {
     if (!message.trim()) return;
@@ -20,6 +17,8 @@ export default function NovaChatScreen() {
     setLoading(true);
 
     try {
+      const API_KEY = process.env.EXPO_PUBLIC_GEMINI_API_KEY;
+      
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -31,7 +30,9 @@ export default function NovaChatScreen() {
           }]
         })
       });
+
       const data = await response.json();
+      
       if (data.candidates && data.candidates[0].content) {
         setChat(prev => [...prev, { role: 'ai', text: data.candidates[0].content.parts[0].text }]);
       } else {
@@ -47,7 +48,13 @@ export default function NovaChatScreen() {
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.header}>
-        <View style={styles.avatar}><Text style={{ fontSize: 24 }}>🤖</Text></View>
+        <View style={styles.avatar}>
+          <Image 
+            source={{ uri: 'https://i.ibb.co/qL2tpKMY/1794828038537.jpg' }} 
+            style={{ width: 30, height: 30, borderRadius: 15 }} 
+            resizeMode="contain" 
+          />
+        </View>
         <View>
           <Text style={styles.headerTitle}>Nova Mind IA</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>

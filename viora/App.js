@@ -11,6 +11,9 @@ import NotificationsScreen from './screens/NotificationsScreen';
 import NovaChatScreen from './screens/NovaChatScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import ChatsListScreen from './screens/ChatsListScreen';
+import CreatePostScreen from './screens/CreatePostScreen';
+import ReelsScreen from './screens/ReelsScreen';
+import ChatScreen from './screens/ChatScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -62,6 +65,9 @@ export default function App() {
           <>
             <Stack.Screen name="Main" component={MainTabs} />
             <Stack.Screen name="NovaChat" component={NovaChatScreen} />
+            <Stack.Screen name="CreatePost" component={CreatePostScreen} />
+            <Stack.Screen name="Reels" component={ReelsScreen} />
+            <Stack.Screen name="ChatScreen" component={ChatScreen} />
           </>
         )}
       </Stack.Navigator>

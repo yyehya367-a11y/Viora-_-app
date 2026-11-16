@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
@@ -33,10 +33,9 @@ export default function HomeScreen() {
           </ScrollView>
         </View>
 
-        {/* Main Feed */}
+        {/* Main Feed (Posts + Stories) */}
         <View style={styles.mainContent}>
-          
-          {/* Posts (Left) */}
+          {/* Posts Column (Left) */}
           <View style={styles.postsColumn}>
             <View style={styles.postCard}>
               <View style={styles.postHeader}>
@@ -63,7 +62,7 @@ export default function HomeScreen() {
             </View>
           </View>
 
-          {/* Stories (Right) */}
+          {/* Stories Column (Right) */}
           <View style={styles.storiesColumn}>
             <View style={styles.storyItem}>
               <View style={styles.storyCircleAdd}>
@@ -81,7 +80,14 @@ export default function HomeScreen() {
             ))}
           </View>
         </View>
+
       </ScrollView>
+
+      {/* زر النشر العائم (Floating Action Button) */}
+      <TouchableOpacity style={styles.floatingPostBtn} onPress={() => navigation.navigate('CreatePost')}>
+        <Ionicons name="add" size={30} color="#FFF" />
+      </TouchableOpacity>
+
     </SafeAreaView>
   );
 }
@@ -115,4 +121,22 @@ const styles = StyleSheet.create({
   storyCircle: { width: 50, height: 50, borderRadius: 25, borderWidth: 2, borderColor: '#FFB6C1', padding: 2, marginBottom: 5 },
   storyImage: { width: '100%', height: '100%', borderRadius: 25 },
   storyName: { fontSize: 11, textAlign: 'center' },
+  
+  // 🟣 زر النشر العائم
+  floatingPostBtn: {
+    position: 'absolute',
+    bottom: 100,
+    right: 20,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#9C27B0',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#9C27B0',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.8,
+    shadowRadius: 15,
+    elevation: 10,
+  },
 });
